@@ -4,4 +4,5 @@
 int main(int argc, char** argv)
 {
     FILE *what, where;
+    what = fopen(argv[1], "r");
 }
