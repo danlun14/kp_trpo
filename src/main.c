@@ -5,4 +5,9 @@ int main(int argc, char** argv)
 {
     FILE *what, where;
     what = fopen(argv[1], "r");
+    if (what == NULL) {
+        ER1;
+        return -1;
+    }
+    return 1;
 }
