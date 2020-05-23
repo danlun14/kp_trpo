@@ -1,44 +1,25 @@
 #include <stdio.h>
-#define ER1 printf("incorrect input file");
+#define ER1 printf("Usage:\n sort <in-file-name> <out-file-name> [sort-key]\n");
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
-    FILE *what, *where;
-    int typeofsort = 0;
-    int key;
-
-    what = fopen(argv[1], "r");
-    if (what == NULL) {
+    if (argc > 4) {
         ER1;
         return -1;
     }
-    where = fopen(argv[2], "r");
-    if (where != NULL) {
-        char f;
-        printf("Are you want to rewrite file?(y/n)");
-
-        while (key != 0) {
-            scanf("%s", &f);
-            if (f == "y") {
-                key = 0;
-            } else if (f == "n") {
-                return 0;
-            } else if (key != 0) {
-                printf("Wrong symbol");
-            }
+    if (!strcmp(argv[3], "-l")) {
+        if (lower_sort(argv[1], argv[2])) {
+            printf("Error sort from high to low\n");
+            return -1;
         }
-    }
-    if (argv[2] == '-u') {
-        typeofsort = 1;
-    } else if (argv[2] == '-l') {
-        typeofsort = -1;
-    } else if (typeofsort != 1 || typeofsort != -1) {
+    } else if (!strcmp(argv[3], "-u")) {
+        if (upper_sort(argv[1], argv[2])) {
+            printf("Error sort from low to high\n");
+            return -1;
+        }
+    } else {
         ER1;
-        return -1;
-    }
-    if (typeofsort == 1) {
-    } else if (typeofsort == -1) {
     }
 
-    return 1;
+    return 0;
 }
