@@ -9,3 +9,9 @@ typedef struct {
     int size;
     int capacity;
 } dictionary;
+
+dictionary* dic_init();
+
+int write_in_dic(dictionary* dic, char* s1);
+
+void dic_free(dictionary* dic);
