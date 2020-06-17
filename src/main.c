@@ -8,12 +8,12 @@ int main(int argc, char* argv[])
         return -1;
     }
     if (!strcmp(argv[3], "-l")) {
-        if (lower_sort(argv[1], argv[2])) {
+        if (sort_file(argv[1], argv[2], 1)) {
             printf("Error sort from high to low\n");
             return -1;
         }
-    } else if (!strcmp(argv[3], "-u")) {
-        if (upper_sort(argv[1], argv[2])) {
+    } else if ((!strcmp(argv[3], "-u")) || (argv[3] == NULL)) {
+        if (sort_file(argv[1], argv[2], -1)) {
             printf("Error sort from low to high\n");
             return -1;
         }
