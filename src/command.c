@@ -1,3 +1,4 @@
+#include "str.h"
 #include <stdio.h>
 
 int sort_file(const char* input_file, const char* output_file, int sort_type)
@@ -16,4 +17,6 @@ int sort_file(const char* input_file, const char* output_file, int sort_type)
         fclose(in);
         return -1;
     }
+
+    dictionary* dic = dic_init;
 }

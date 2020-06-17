@@ -17,4 +17,14 @@ int write_in_dic(dictionary* dic, char* s1)
     }
     dic->word[dic->size].s = s1;
     dic->size++;
+    return 1;
+}
+
+void dic_free(dictionary* dic)
+{
+    for (int i = 0; i < dic->size; i++) {
+        free(dic->word[i].s);
+    }
+    free(dic->word);
+    free(dic);
 }
