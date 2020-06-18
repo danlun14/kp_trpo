@@ -21,3 +21,4 @@ int fill_dic(dictionary* dic, FILE* in);
 
 int nstrcmp(char* str1, char* str2);
 
+void swap(char* str1, char* str2);
