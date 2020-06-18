@@ -54,3 +54,22 @@ int fill_dic(dictionary* dic, FILE* in)
         s[id] = 0;
     }
 }
+
+int nstrcmp(char* str1, char* str2)
+{
+    if (&str1 == NULL || &str2 == NULL) {
+        return -1;
+    }
+    for (int i = 0; str1 != '\0' || str2 != '\0'; i++) {
+        if (str1[i] != str2[i]) {
+            if (str1[i] > str2[i]) {
+                return 1;
+            }
+            if (str1[i] < str2[i]) {
+                return 2;
+            }
+        }
+    }
+    return 0;
+}
+
