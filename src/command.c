@@ -9,7 +9,7 @@ int sort_file(const char* input_file, const char* output_file, int sort_type)
     }
     FILE* out = fopen(output_file, "r");
     if (out != NULL) {
-        printf("Wrong output file name");
+        printf("Wrong output file name\n");
         fclose(out);
         fclose(in);
         return -1;
@@ -20,10 +20,11 @@ int sort_file(const char* input_file, const char* output_file, int sort_type)
         return -1;
     }
 
-    dictionary* dic;
-    dic = dic_init();
-
-    fill_dic(dic, in);
-    printf("%s", dic->str[2].s);
+    dictionary dic;
+    dic_init(&dic, 65655);
+    printf("%d\n", dic.size);
+    fill_dic(&dic, in);
+    printf("%s", dic.str[0].s);
+    printf("%d\n", dic.size);
     return 0;
 }
