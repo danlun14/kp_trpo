@@ -80,3 +80,15 @@ void swap(char* str1, char* str2)
     *str1 = *str2;
     *str2 = tmp;
 }
+
+void Bubble_Sort(dictionary* dic)
+{
+    int f;
+    for (int i = 0; i < dic->size; i++) {
+        for (f = 0; f < dic->size - 1; f++) {
+            if (nstrcmp(dic->str[f].s, dic->str[f + 1].s) == 1) {
+                swap(&dic->str[f].s, &dic->str[f + 1].s);
+            }
+        }
+    }
+}
