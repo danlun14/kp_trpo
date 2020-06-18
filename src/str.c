@@ -54,3 +54,41 @@ int fill_dic(dictionary* dic, FILE* in)
         s[id] = 0;
     }
 }
+
+int nstrcmp(char* str1, char* str2)
+{
+    if (&str1 == NULL || &str2 == NULL) {
+        return -1;
+    }
+    for (int i = 0; str1 != '\0' || str2 != '\0'; i++) {
+        if (str1[i] != str2[i]) {
+            if (str1[i] > str2[i]) {
+                return 1;
+            }
+            if (str1[i] < str2[i]) {
+                return 2;
+            }
+        }
+    }
+    return 0;
+}
+
+void swap(char* str1, char* str2)
+{
+    char tmp;
+    tmp = *str1;
+    *str1 = *str2;
+    *str2 = tmp;
+}
+
+void Bubble_Sort(dictionary* dic)
+{
+    int f;
+    for (int i = 0; i < dic->size; i++) {
+        for (f = 0; f < dic->size - 1; f++) {
+            if (nstrcmp(dic->str[f].s, dic->str[f + 1].s) == 1) {
+                swap(&dic->str[f].s, &dic->str[f + 1].s);
+            }
+        }
+    }
+}

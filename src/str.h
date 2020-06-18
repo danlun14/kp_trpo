@@ -18,3 +18,9 @@ int write_in_dic(dictionary* dic, char* s1);
 void dic_free(dictionary* dic);
 
 int fill_dic(dictionary* dic, FILE* in);
+
+int nstrcmp(char* str1, char* str2);
+
+void swap(char* str1, char* str2);
+
+void Bubble_Sort(dictionary* dic);
