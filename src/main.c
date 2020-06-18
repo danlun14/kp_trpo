@@ -5,13 +5,11 @@
 
 int main(int argc, char* argv[])
 {
-    printf("* ");
     if (argc > 4) {
         ER1;
         return -1;
     }
     if (!strcmp(argv[3], "-l")) {
-        printf("* ");
         if (sort_file(argv[1], argv[2], 1)) {
             printf("Error sort from high to low\n");
             return -1;
@@ -24,6 +22,5 @@ int main(int argc, char* argv[])
     } else {
         ER1;
     }
-    printf("* ");
     return 0;
 }

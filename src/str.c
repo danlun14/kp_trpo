@@ -2,31 +2,23 @@
 #include <stdio.h>
 #include <string.h>
 
-dictionary* dic_init()
+void dic_init(dictionary* dic, int capacity)
 {
-    dictionary* dic = calloc(1, sizeof(dictionary));
-    dic->str = calloc(1, sizeof(word));
+    dic->str = calloc(capacity, sizeof(word));
     if (dic->str == NULL) {
-        return NULL;
     }
     dic->size = 0;
-    dic->capacity = 1;
-    return dic;
+    dic->capacity = capacity;
 }
 
 int write_in_dic(dictionary* dic, char* s)
 {
     if (dic->size == dic->capacity) {
-        word* tmp = realloc(dic->str, 2 * dic->capacity * sizeof(word));
-        if (tmp == NULL) {
-            return -1;
-        }
-        dic->str = tmp;
-        dic->capacity *= 2;
+        return -1;
     }
     dic->str->s = s;
     dic->size++;
-    return 1;
+    return 0;
 }
 
 void dic_free(dictionary* dic)
@@ -51,7 +43,7 @@ int fill_dic(dictionary* dic, FILE* in)
         } else if (id != 0) {
             s[id] = 0;
             id = 0;
-            // printf("%s", s);
+            printf("%s", s);
             dic->str[i].s = s;
             i++;
             s = calloc(1, sizeof(char));

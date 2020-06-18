@@ -11,7 +11,7 @@ typedef struct {
     int capacity;
 } dictionary;
 
-dictionary* dic_init();
+void dic_init();
 
 int write_in_dic(dictionary* dic, char* s1);
 
