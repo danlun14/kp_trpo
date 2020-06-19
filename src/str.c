@@ -43,24 +43,26 @@ int fill_dic(dictionary* dic, FILE* in)
         } else if (id != 0) {
             s[id] = 0;
             id = 0;
-            printf("%s", s);
+            dic->size++;
+            // printf("%s", s);
             dic->str[i].s = s;
             i++;
             s = calloc(1, sizeof(char));
         }
     }
     if (id != 0) {
+        dic->size++;
         dic->str[i].s = s;
         s[id] = 0;
     }
 }
 
-int nstrcmp(char* str1, char* str2)
+int scmp(char* str1, char* str2)
 {
     if (&str1 == NULL || &str2 == NULL) {
         return -1;
     }
-    for (int i = 0; str1 != '\0' || str2 != '\0'; i++) {
+    for (int i = 0; str1[i] != '\0' || str2[i] != '\0'; i++) {
         if (str1[i] != str2[i]) {
             if (str1[i] > str2[i]) {
                 return 1;
@@ -73,21 +75,21 @@ int nstrcmp(char* str1, char* str2)
     return 0;
 }
 
-void swap(char* str1, char* str2)
+void swap_pointers(char** str1, char** str2)
 {
-    char tmp;
+    char* tmp;
     tmp = *str1;
     *str1 = *str2;
     *str2 = tmp;
 }
 
-void Bubble_Sort(dictionary* dic)
+void sort_dic(dictionary* dic)
 {
     int f;
     for (int i = 0; i < dic->size; i++) {
         for (f = 0; f < dic->size - 1; f++) {
-            if (nstrcmp(dic->str[f].s, dic->str[f + 1].s) == 1) {
-                swap(&dic->str[f].s, &dic->str[f + 1].s);
+            if (scmp(dic->str[f].s, dic->str[f + 1].s) == 1) {
+                swap_pointers(&dic->str[f].s, &dic->str[f + 1].s);
             }
         }
     }
