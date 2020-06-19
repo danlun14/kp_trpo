@@ -24,3 +24,5 @@ int scmp(char* str1, char* str2);
 void swap_pointers(char** str1, char** str2);
 
 void sort_dic(dictionary* dic);
+
+int dic_out(FILE* out, dictionary* dic);
