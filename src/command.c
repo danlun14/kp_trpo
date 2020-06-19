@@ -24,12 +24,10 @@ int sort_file(const char* input_file, const char* output_file, int sort_type)
     dic_init(&dic, 65655);
     printf("%d\n", dic.size);
     fill_dic(&dic, in);
-    // printf("%s", dic.str[0].s);
-    // printf("%s\n", dic.str[3].s);
-    printf("%d\n", dic.size);
-    printf("%d\n", dic.capacity);
+
     sort_dic(&dic);
-    printf("%s", dic.str[0].s);
-    printf("%s\n", dic.str[3].s);
+
+    dic_out(out, &dic);
+
     return 0;
 }
