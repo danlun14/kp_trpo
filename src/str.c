@@ -34,7 +34,7 @@ int fill_dic(dictionary* dic, FILE* in)
 {
     char* c = calloc(1, sizeof(char));
     char* s = calloc(1, sizeof(char));
-    int id = 0, i = 0;
+    int id = 0;
     while (fread(c, sizeof(char), 1, in) != 0) {
         if (*c != ' ') {
             s[id] = *c;
@@ -42,17 +42,20 @@ int fill_dic(dictionary* dic, FILE* in)
             s = realloc(s, (id + 1) * sizeof(char));
         } else if (id != 0) {
             s[id] = 0;
-            id = 0;
+
+            dic->str[dic->size].s = s;
             dic->size++;
+            if (id = str_is_digit(s) > -1) {
+                dic->nums++;
+            }
+            id = 0;
             // printf("%s", s);
-            dic->str[i].s = s;
-            i++;
             s = calloc(1, sizeof(char));
         }
     }
     if (id != 0) {
+        dic->str[dic->size].s = s;
         dic->size++;
-        dic->str[i].s = s;
         s[id] = 0;
     }
 }
@@ -94,9 +97,23 @@ void sort_dic(dictionary* dic)
     }
 }
 
-int dic_out(FILE* out, dictionary* dic)
+void dic_out(FILE* out, dictionary* dic)
 {
     for (int i = 0; i < dic->size; i++) {
         fprintf(out, "%s\n", dic->str[i].s);
     }
 }
+
+int is_digit(char* str)
+{
+    if (str == NULL) {
+        return -1;
+    }
+    int f = 0;
+    for (int i = 0; str != '\0'; i++) {
+        if (str[i] > '9' || str[i] < '0') {
+            return 1;
+        }
+
+        return 0;
+    }
