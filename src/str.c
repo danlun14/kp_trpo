@@ -94,3 +94,10 @@ void sort_dic(dictionary* dic)
         }
     }
 }
+
+int dic_out(FILE* out, dictionary* dic)
+{
+    for (int i = 0; i < dic->size; i++) {
+        fprintf(out, "%s\n", dic->str[i].s);
+    }
+}
