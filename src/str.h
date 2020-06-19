@@ -24,3 +24,5 @@ int nstrcmp(char* str1, char* str2);
 void swap(char* str1, char* str2);
 
 void Bubble_Sort(dictionary* dic);
+
+void int_or_char(char* str);

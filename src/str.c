@@ -92,3 +92,18 @@ void Bubble_Sort(dictionary* dic)
         }
     }
 }
+
+void int_or_char(char* str)
+{
+    if (str == NULL) {
+        return 0;
+    }
+    int f = 0;
+    for (int i = 0; str != '\0'; i++) {
+        if (str[i] > '9' || str[i] < '0') {
+            return -1;
+        }
+        f = f * 10 + str[i] - '0';
+    }
+    return f;
+}
