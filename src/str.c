@@ -2,51 +2,104 @@
 #include <stdio.h>
 #include <string.h>
 
-void dic_init(dictionary* dic, int capacity)
+int dic_init(dictionary* dic, int capacity)
 {
     dic->str = calloc(capacity, sizeof(word));
     if (dic->str == NULL) {
+        return -1;
     }
-    dic->size = 0;
+    dic->nums = calloc(capacity, sizeof(long int));
+    if (dic->nums == NULL) {
+        free(dic->str);
+        return -1;
+    }
+    dic->size_s = 0;
+    dic->size_n = 0;
     dic->capacity = capacity;
 }
 
-int write_in_dic(dictionary* dic, char* s)
+int str_to_dic(dictionary* dic, char* s)
 {
-    if (dic->size == dic->capacity) {
+    if (dic->size_s == dic->capacity) {
         return -1;
     }
-    dic->str->s = s;
-    dic->size++;
+    dic->str[dic->size_s].s = s;
+    dic->size_s++;
+    return 0;
+}
+int num_to_dic(dictionary* dic, int num)
+{
+    if (dic->size_n == dic->capacity) {
+        return -1;
+    }
+    dic->nums[dic->size_n] = num;
+    dic->size_n++;
     return 0;
 }
 
 void dic_free(dictionary* dic)
 {
-    for (int i = 0; i < dic->size; i++) {
+    for (int i = 0; i < dic->size_s; i++) {
         free(dic->str[i].s);
     }
+    free(dic->nums);
     free(dic->str);
     free(dic);
 }
 
+int symbol_check(char* s)
+{
+    if (*s == ' ') {
+        return 1;
+    }
+    if (*s == '.') {
+        return 1;
+    }
+    if (*s == '/') {
+        return 1;
+    }
+    if (*s == '_') {
+        return 1;
+    }
+    if (*s == '-') {
+        return 1;
+    }
+    if (*s == '+') {
+        return 1;
+    }
+    if (*s == '=') {
+        return 1;
+    }
+    if (*s == ',') {
+        return 1;
+    }
+    if (*s == '?') {
+        return 1;
+    }
+    if (*s == '!') {
+        return 1;
+    }
+    return 0;
+}
 int fill_dic(dictionary* dic, FILE* in)
 {
     char* c = calloc(1, sizeof(char));
     char* s = calloc(1, sizeof(char));
-    int id = 0;
+    int id = 0, check;
     while (fread(c, sizeof(char), 1, in) != 0) {
-        if (*c != ' ') {
+        check = symbol_check(c);
+        printf("%d", check);
+        if (check == 0) {
             s[id] = *c;
             id++;
             s = realloc(s, (id + 1) * sizeof(char));
         } else if (id != 0) {
             s[id] = 0;
-
-            dic->str[dic->size].s = s;
-            dic->size++;
-            if (id = str_is_digit(s) > -1) {
-                dic->nums++;
+            id = is_digit(s);
+            if (id > 0) {
+                num_to_dic(dic, id);
+            } else {
+                str_to_dic(dic, s);
             }
             id = 0;
             // printf("%s", s);
@@ -54,10 +107,15 @@ int fill_dic(dictionary* dic, FILE* in)
         }
     }
     if (id != 0) {
-        dic->str[dic->size].s = s;
-        dic->size++;
+        id = is_digit(s);
+        if (id > 0) {
+            num_to_dic(dic, id);
+        } else {
+            str_to_dic(dic, s);
+        }
         s[id] = 0;
     }
+    return 0;
 }
 
 int scmp(char* str1, char* str2)
@@ -85,11 +143,11 @@ void swap_pointers(char** str1, char** str2)
     *str2 = tmp;
 }
 
-void sort_dic(dictionary* dic)
+void sort_str(dictionary* dic)
 {
     int f;
-    for (int i = 0; i < dic->size; i++) {
-        for (f = 0; f < dic->size - 1; f++) {
+    for (int i = 0; i < dic->size_s; i++) {
+        for (f = 0; f < dic->size_s - 1; f++) {
             if (scmp(dic->str[f].s, dic->str[f + 1].s) == 1) {
                 swap_pointers(&dic->str[f].s, &dic->str[f + 1].s);
             }
@@ -99,21 +157,54 @@ void sort_dic(dictionary* dic)
 
 void dic_out(FILE* out, dictionary* dic)
 {
-    for (int i = 0; i < dic->size; i++) {
+    for (int i = 0; i < dic->size_n; i++) {
+        fprintf(out, "%li\n", dic->nums[i]);
+    }
+    for (int i = 0; i < dic->size_s; i++) {
         fprintf(out, "%s\n", dic->str[i].s);
     }
 }
-
-int is_digit(char* str)
+int slen(char* s)
 {
-    if (str == NULL) {
+    if (s == NULL) {
         return -1;
     }
-    int f = 0;
-    for (int i = 0; str != '\0'; i++) {
-        if (str[i] > '9' || str[i] < '0') {
-            return 1;
-        }
-
-        return 0;
+    int i = 0;
+    while (s[i] != '\0') {
+        i++;
     }
+    return i;
+}
+
+long int is_digit(char* s)
+{
+    if (s == NULL) {
+        return -2;
+    }
+    char* endPtr;
+    int len = slen(s);
+    long int num = strtol(s, &endPtr, 10);
+    if ((endPtr - s) == len) {
+        return num;
+    }
+    return -1;
+}
+
+void sort_int(dictionary* dic)
+{
+    for (int i = 0; i < dic->size_n; i++) {
+        for (int j = 0; j < dic->size_n - 1; j++) {
+            if (dic->nums[j] > dic->nums[j + 1]) {
+                swap_int(dic->nums + j, dic->nums + j + 1);
+            }
+        }
+    }
+}
+
+void swap_int(long int* frst, long int* scnd)
+{
+    long int tmp;
+    tmp = *frst;
+    *frst = *scnd;
+    *scnd = tmp;
+}
