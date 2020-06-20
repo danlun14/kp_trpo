@@ -37,3 +37,5 @@ long int is_digit(char* str);
 int symbol_check(char* s);
 
 void int_Bubble_sort(dictionary* dic);
+
+void swap_int(long int* frst, long int* scnd);

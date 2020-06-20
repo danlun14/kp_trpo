@@ -198,3 +198,11 @@ void int_Bubble_sort(dictionary* dic)
         }
     }
 }
+
+void swap_int(long int* frst, long int* scnd)
+{
+    long int tmp;
+    tmp = *frst;
+    *frst = *scnd;
+    *scnd = tmp;
+}
