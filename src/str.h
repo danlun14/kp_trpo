@@ -2,17 +2,21 @@
 #include <stdlib.h>
 
 typedef struct {
+} Sep_sym;
+
+typedef struct {
     char* s;
 } word;
 
 typedef struct {
     word* str;
-    int size;
-    int nums;
+    long int* nums;
+    int size_s;
+    int size_n;
     int capacity;
 } dictionary;
 
-void dic_init();
+int dic_init();
 
 int write_in_dic(dictionary* dic, char* s1);
 
@@ -24,8 +28,10 @@ int scmp(char* str1, char* str2);
 
 void swap_pointers(char** str1, char** str2);
 
-void sort_dic(dictionary* dic);
+void sort_str(dictionary* dic);
 
 void dic_out(FILE* out, dictionary* dic);
 
-int is_digit(char* str);
+long int is_digit(char* str);
+
+int symbol_check(char* s);
