@@ -186,3 +186,15 @@ long int is_digit(char* s)
     }
     return -1;
 }
+
+void int_Bubble_sort(dictionary* dic)
+{
+    int h = dic->nums;
+    for (int i = 0; i < h; i++) {
+        for (int c = 0; c < h - 1; c++) {
+            if (dic->size_n[c] > dic->size_n[c + 1]) {
+                swap_int(&dic->size_n[c], &dic->size_n[c + 1]);
+            }
+        }
+    }
+}
