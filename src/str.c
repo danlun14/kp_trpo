@@ -157,6 +157,9 @@ void sort_str(dictionary* dic)
 
 void dic_out(FILE* out, dictionary* dic)
 {
+    for (int i = 0; i < dic->size_n; i++) {
+        fprintf(out, "%li\n", dic->nums[i]);
+    }
     for (int i = 0; i < dic->size_s; i++) {
         fprintf(out, "%s\n", dic->str[i].s);
     }
@@ -187,13 +190,12 @@ long int is_digit(char* s)
     return -1;
 }
 
-void int_Bubble_sort(dictionary* dic)
+void sort_int(dictionary* dic)
 {
-    int h = dic->nums;
-    for (int i = 0; i < h; i++) {
-        for (int c = 0; c < h - 1; c++) {
-            if (dic->size_n[c] > dic->size_n[c + 1]) {
-                swap_int(&dic->size_n[c], &dic->size_n[c + 1]);
+    for (int i = 0; i < dic->size_n; i++) {
+        for (int j = 0; j < dic->size_n - 1; j++) {
+            if (dic->nums[j] > dic->nums[j + 1]) {
+                swap_int(dic->nums + j, dic->nums + j + 1);
             }
         }
     }
