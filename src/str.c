@@ -1,51 +1,4 @@
 #include "str.h"
-#include <stdio.h>
-#include <string.h>
-
-int dic_init(dictionary* dic, int capacity)
-{
-    dic->str = calloc(capacity, sizeof(word));
-    if (dic->str == NULL) {
-        return -1;
-    }
-    dic->nums = calloc(capacity, sizeof(long int));
-    if (dic->nums == NULL) {
-        free(dic->str);
-        return -1;
-    }
-    dic->size_s = 0;
-    dic->size_n = 0;
-    dic->capacity = capacity;
-}
-
-int str_to_dic(dictionary* dic, char* s)
-{
-    if (dic->size_s == dic->capacity) {
-        return -1;
-    }
-    dic->str[dic->size_s].s = s;
-    dic->size_s++;
-    return 0;
-}
-int num_to_dic(dictionary* dic, int num)
-{
-    if (dic->size_n == dic->capacity) {
-        return -1;
-    }
-    dic->nums[dic->size_n] = num;
-    dic->size_n++;
-    return 0;
-}
-
-void dic_free(dictionary* dic)
-{
-    for (int i = 0; i < dic->size_s; i++) {
-        free(dic->str[i].s);
-    }
-    free(dic->nums);
-    free(dic->str);
-    free(dic);
-}
 
 int symbol_check(char* s)
 {
@@ -53,6 +6,9 @@ int symbol_check(char* s)
         return 1;
     }
     if (*s == '.') {
+        return 1;
+    }
+    if (*s == '\n') {
         return 1;
     }
     if (*s == '/') {
@@ -81,53 +37,17 @@ int symbol_check(char* s)
     }
     return 0;
 }
-int fill_dic(dictionary* dic, FILE* in)
-{
-    char* c = calloc(1, sizeof(char));
-    char* s = calloc(1, sizeof(char));
-    int id = 0, check;
-    while (fread(c, sizeof(char), 1, in) != 0) {
-        check = symbol_check(c);
-        printf("%d", check);
-        if (check == 0) {
-            s[id] = *c;
-            id++;
-            s = realloc(s, (id + 1) * sizeof(char));
-        } else if (id != 0) {
-            s[id] = 0;
-            id = is_digit(s);
-            if (id > 0) {
-                num_to_dic(dic, id);
-            } else {
-                str_to_dic(dic, s);
-            }
-            id = 0;
-            // printf("%s", s);
-            s = calloc(1, sizeof(char));
-        }
-    }
-    if (id != 0) {
-        id = is_digit(s);
-        if (id > 0) {
-            num_to_dic(dic, id);
-        } else {
-            str_to_dic(dic, s);
-        }
-        s[id] = 0;
-    }
-    return 0;
-}
 
-int scmp(char* str1, char* str2)
+int scmp(char* s1, char* s2)
 {
-    if (&str1 == NULL || &str2 == NULL) {
+    if (&s1 == NULL || &s2 == NULL) {
         return -1;
     }
-    for (int i = 0; str1[i] != '\0' || str2[i] != '\0'; i++) {
-        if (str1[i] != str2[i]) {
-            if (str1[i] > str2[i]) {
+    for (int i = 0; s1[i] != '\0' || s2[i] != '\0'; i++) {
+        if (s1[i] != s2[i]) {
+            if (s1[i] > s2[i]) {
                 return 1;
-            } else if ((str1[i] < str2[i])) {
+            } else if ((s1[i] < s2[i])) {
                 return 2;
             }
         }
@@ -135,35 +55,6 @@ int scmp(char* str1, char* str2)
     return 0;
 }
 
-void swap_pointers(char** str1, char** str2)
-{
-    char* tmp;
-    tmp = *str1;
-    *str1 = *str2;
-    *str2 = tmp;
-}
-
-void sort_str(dictionary* dic)
-{
-    int f;
-    for (int i = 0; i < dic->size_s; i++) {
-        for (f = 0; f < dic->size_s - 1; f++) {
-            if (scmp(dic->str[f].s, dic->str[f + 1].s) == 1) {
-                swap_pointers(&dic->str[f].s, &dic->str[f + 1].s);
-            }
-        }
-    }
-}
-
-void dic_out(FILE* out, dictionary* dic)
-{
-    for (int i = 0; i < dic->size_n; i++) {
-        fprintf(out, "%li\n", dic->nums[i]);
-    }
-    for (int i = 0; i < dic->size_s; i++) {
-        fprintf(out, "%s\n", dic->str[i].s);
-    }
-}
 int slen(char* s)
 {
     if (s == NULL) {
@@ -184,27 +75,26 @@ long int is_digit(char* s)
     char* endPtr;
     int len = slen(s);
     long int num = strtol(s, &endPtr, 10);
-    if ((endPtr - s) == len) {
+    if ((endPtr - s) == len && num < 2147483647) {
         return num;
     }
     return -1;
 }
 
-void sort_int(dictionary* dic)
-{
-    for (int i = 0; i < dic->size_n; i++) {
-        for (int j = 0; j < dic->size_n - 1; j++) {
-            if (dic->nums[j] > dic->nums[j + 1]) {
-                swap_int(dic->nums + j, dic->nums + j + 1);
-            }
-        }
-    }
-}
+/*************************SWAP*************************/
 
-void swap_int(long int* frst, long int* scnd)
+void swap_int(long int* num1, long int* num2)
 {
     long int tmp;
-    tmp = *frst;
-    *frst = *scnd;
-    *scnd = tmp;
+    tmp = *num1;
+    *num1 = *num2;
+    *num2 = tmp;
+}
+
+void swap_pointers(char** s1, char** s2)
+{
+    char* tmp;
+    tmp = *s1;
+    *s1 = *s2;
+    *s2 = tmp;
 }
