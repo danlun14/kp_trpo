@@ -35,3 +35,28 @@ CTEST(arithmetic_suite, str_to_dic)
     cur = dic1.size_s;
     ASSERT_EQUAL(prev, cur);
 }
+
+CTEST(arithmetic_suite, num_to_dic)
+{
+    dictionary dic1;
+    dic_init(&dic1, 65655);
+    long int num = 50;
+    int prev = dic1.size_n;
+    prev++;
+    num_to_dic(&dic1, num);
+    int cur = dic1.size_n;
+    ASSERT_EQUAL(prev, cur);
+    prev++;
+    num_to_dic(&dic1, num);
+    cur = dic1.size_n;
+    ASSERT_EQUAL(prev, cur);
+    prev++;
+    num_to_dic(&dic1, num);
+    cur = dic1.size_n;
+    ASSERT_EQUAL(prev, cur);
+    prev++;
+    num_to_dic(&dic1, num);
+    cur = dic1.size_n;
+    ASSERT_EQUAL(prev, cur);
+    dic_free(&dic1);
+}
