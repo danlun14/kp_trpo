@@ -37,6 +37,6 @@ $(TEST_OBJ_DIR)/%.o: $(TEST_SRC_DIR)/%.c
 	gcc $< -c -o $@ $(CF_TEST) -MMD -MF $(TEST_OBJ_DIR)/$*.d
 
 clean:
-	rm -rf build bin
+	rm -rf build/src/ build/test
 
 .PHONY: all clean test

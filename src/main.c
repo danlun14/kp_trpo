@@ -1,7 +1,7 @@
 #include "command.h"
 #include <stdio.h>
 #include <string.h>
-#define ER1 printf("Usage:\n sort <in-file-name> <out-file-name> [sort-key]\n");
+#define ER1 printf("Usage:\n sort <in-file-name> <out-file-name> <sort-key>\n");
 
 int main(int argc, char* argv[])
 {
