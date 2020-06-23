@@ -121,3 +121,22 @@ CTEST(arithmetic_suite, symbol_check)
     r1 = symbol_check(&q2);
     ASSERT_EQUAL(r1, 0);
 }
+
+CTEST(arithmetic_suite, swap_str)
+{
+    dictionary* dic1;
+    dic1 = malloc(sizeof(dictionary));
+    dic_init(dic1, 65655);
+    dictionary* dic2;
+    dic2 = malloc(sizeof(dictionary));
+    dic_init(dic2, 65655);
+    char str[45] = "sun";
+    char str2[21] = {'1', 'c', 'd'};
+    str_to_dic(dic1, str);
+    str_to_dic(dic1, str2);
+    str_to_dic(dic2, str);
+    str_to_dic(dic2, str2);
+    swap_pointers(&dic2->str[1].s, &dic2->str[0].s);
+    ASSERT_STR(dic1->str[0].s, dic2->str[1].s);
+    ASSERT_STR(dic1->str[1].s, dic2->str[0].s);
+}
