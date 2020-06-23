@@ -4,6 +4,8 @@
 #include "stdio.h"
 #include "str.h"
 
+/**********sort.h*********/
+
 CTEST(arithmetic_suite, dic_init)
 {
     dictionary dic1;
@@ -96,4 +98,26 @@ CTEST(arithmetic_suite, fill_dic)
     dic_free(&dic1);
     dic_free(&dic2);
     dic_free(&dic3);
+}
+
+/**********str.h*********/
+
+CTEST(arithmetic_suite, symbol_check)
+{
+    char q = 'c';
+    char n = ' ';
+    char n2 = '\n';
+    char n3 = '=';
+    char q2 = 'G';
+    int r1 = symbol_check(&q);
+    r1 = symbol_check(&q);
+    ASSERT_EQUAL(r1, 0);
+    r1 = symbol_check(&n);
+    ASSERT_EQUAL(r1, 1);
+    r1 = symbol_check(&n2);
+    ASSERT_EQUAL(r1, 1);
+    r1 = symbol_check(&n3);
+    ASSERT_EQUAL(r1, 1);
+    r1 = symbol_check(&q2);
+    ASSERT_EQUAL(r1, 0);
 }
