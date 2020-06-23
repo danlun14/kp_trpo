@@ -2,33 +2,47 @@
 #include "str.h"
 #include <stdio.h>
 
+int open_files(
+        const char* input_file, const char* output_file, FILE** in, FILE** out)
+{
+    *in = fopen(input_file, "r");
+    if (*in == NULL) {
+        return -1;
+    }
+    *out = fopen(output_file, "r");
+    if (*out != NULL) {
+        printf("Wrong output file name\n");
+        fclose(*out);
+        fclose(*in);
+        return -1;
+    }
+    *out = fopen(output_file, "w");
+    if (*out == NULL) {
+        fclose(*in);
+        return -1;
+    }
+    return 0;
+}
 int sort_file(const char* input_file, const char* output_file, int sort_type)
 {
-    FILE* in = fopen(input_file, "r");
-    if (in == NULL) {
-        return -1;
-    }
-    FILE* out = fopen(output_file, "r");
-    if (out != NULL) {
-        printf("Wrong output file name\n");
-        fclose(out);
-        fclose(in);
-        return -1;
-    }
-    out = fopen(output_file, "w");
-    if (out == NULL) {
-        fclose(in);
-        return -1;
-    }
-
+    FILE *in, *out;
     dictionary dic;
 
-    dic_init(&dic, 65655);
+    int check = open_files(input_file, output_file, &in, &out);
+    if (check == -1) {
+        return -1;
+    }
+    check = dic_init(&dic, 65655);
+    if (check == -1) {
+        return -1;
+    }
     // printf("%d\n", dic.size_s);
-    fill_dic(&dic, in);
-
+    check = fill_dic(&dic, in);
+    if (check == -1) {
+        return -1;
+    }
     sort_str(&dic);
-    printf("%d\n", dic.size_s);
+    // printf("%d\n", dic.size_s);
     sort_int(&dic);
     if (sort_type > 0) {
         // printf("%d\n", dic.nums[8]);

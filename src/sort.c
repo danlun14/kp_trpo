@@ -15,6 +15,7 @@ int dic_init(dictionary* dic, int capacity)
     dic->size_s = 0;
     dic->size_n = 0;
     dic->capacity = capacity;
+    return 0;
 }
 
 void dic_free(dictionary* dic)
@@ -22,7 +23,9 @@ void dic_free(dictionary* dic)
     for (int i = 0; i < dic->size_s; i++) {
         free(dic->str[i].s);
     }
-    free(dic->nums);
+    if (dic->nums != NULL) {
+        free(dic->nums);
+    }
     free(dic->str);
 }
 
@@ -55,7 +58,7 @@ int fill_dic(dictionary* dic, FILE* in)
     int id = 0, check;
     while (fread(c, sizeof(char), 1, in) != 0) {
         check = symbol_check(c);
-        printf("%d", check);
+        // printf("%d", check);
         if (check == 0) {
             s[id] = *c;
             id++;
