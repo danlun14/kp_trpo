@@ -1,3 +1,6 @@
+#ifndef SORT_H
+#define SORT_H
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -25,3 +28,5 @@ void sort_str(dictionary* dic);
 
 void dic_out_u(FILE* out, dictionary* dic);
 void dic_out_l(FILE* out, dictionary* dic);
+
+#endif
