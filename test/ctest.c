@@ -165,3 +165,13 @@ CTEST(arithmetic_suite, scmp)
     i = scmp(str2, str2);
     ASSERT_EQUAL(i, 0);
 }
+
+CTEST(arithmetic_suite, slen)
+{
+    char str[45] = "sun";
+    char str2[21] = {'1', 'c', 'd'};
+    int i = slen(str);
+    int i2 = slen(str2);
+    ASSERT_EQUAL(i, 3);
+    ASSERT_EQUAL(i2, 3);
+}
