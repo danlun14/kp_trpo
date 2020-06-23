@@ -175,3 +175,13 @@ CTEST(arithmetic_suite, slen)
     ASSERT_EQUAL(i, 3);
     ASSERT_EQUAL(i2, 3);
 }
+
+CTEST(arithmetic_suite, is_digit)
+{
+    char str[45] = "sun";
+    char str2[21] = {'2', '3', '4'};
+    int i = is_digit(str);
+    ASSERT_EQUAL(i, -1);
+    i = is_digit(str2);
+    ASSERT_EQUAL(i, 234);
+}
