@@ -185,3 +185,19 @@ CTEST(arithmetic_suite, is_digit)
     i = is_digit(str2);
     ASSERT_EQUAL(i, 234);
 }
+
+CTEST(arithmetic_suite, open_files)
+{
+    FILE *in, *out;
+    char in1[] = "test/test_input/in1";
+    char in2[] = "test/test_input/in2";
+    char in4[] = "test/test_input/in4";
+    int check = open_files(in1, in2, &in, &out);
+    ASSERT_EQUAL(-1, check);
+    ASSERT_NOT_NULL(in);
+    ASSERT_NOT_NULL(out);
+    check = open_files(in1, in4, &in, &out);
+    ASSERT_EQUAL(0, check);
+    ASSERT_NOT_NULL(in);
+    ASSERT_NOT_NULL(out);
+}

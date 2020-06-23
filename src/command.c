@@ -28,12 +28,19 @@ int sort_file(const char* input_file, const char* output_file, int sort_type)
     FILE *in, *out;
     dictionary dic;
 
-    open_files(input_file, output_file, &in, &out);
-
-    dic_init(&dic, 65655);
+    int check = open_files(input_file, output_file, &in, &out);
+    if (check == -1) {
+        return -1;
+    }
+    check = dic_init(&dic, 65655);
+    if (check == -1) {
+        return -1;
+    }
     // printf("%d\n", dic.size_s);
-    fill_dic(&dic, in);
-
+    check = fill_dic(&dic, in);
+    if (check == -1) {
+        return -1;
+    }
     sort_str(&dic);
     // printf("%d\n", dic.size_s);
     sort_int(&dic);
