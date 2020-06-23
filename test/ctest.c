@@ -60,3 +60,40 @@ CTEST(arithmetic_suite, num_to_dic)
     ASSERT_EQUAL(prev, cur);
     dic_free(&dic1);
 }
+
+CTEST(arithmetic_suite, fill_dic)
+{
+    char in1[] = "test/test_input/in1";
+    char in2[] = "test/test_input/in2";
+    char in3[] = "test/test_input/in3";
+    FILE* in = fopen(in1, "r");
+    dictionary dic1;
+    dic_init(&dic1, 65655);
+    fill_dic(&dic1, in);
+    fclose(in);
+    int num = 3;
+    int str = 5;
+    ASSERT_EQUAL(dic1.size_n, num);
+    ASSERT_EQUAL(dic1.size_s, str);
+    in = fopen(in2, "r");
+    dictionary dic2;
+    dic_init(&dic2, 65655);
+    fill_dic(&dic2, in);
+    fclose(in);
+    num = 0;
+    str = 0;
+    ASSERT_EQUAL(dic2.size_n, num);
+    ASSERT_EQUAL(dic2.size_s, str);
+    in = fopen(in3, "r");
+    dictionary dic3;
+    dic_init(&dic3, 65655);
+    fill_dic(&dic3, in);
+    fclose(in);
+    num = 2;
+    str = 4;
+    ASSERT_EQUAL(dic3.size_n, num);
+    ASSERT_EQUAL(dic3.size_s, str);
+    dic_free(&dic1);
+    dic_free(&dic2);
+    dic_free(&dic3);
+}
