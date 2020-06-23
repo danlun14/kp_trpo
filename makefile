@@ -1,31 +1,42 @@
-CC = gcc
-CFLAGS = -Wall -Werror 
+CF := -Wall -Isrc -Ithirdparty
 
-.PHONY: clean all
+CF_TEST := $(CF)
 
-all: ./bin/src/sort ./bin/ctest/test 
+OBJ_DIR := build/src
+SRC_DIR := src
+TEST_OBJ_DIR := build/test
+TEST_SRC_DIR := test
 
-./bin/src/sort: ./build/main.o ./build/sort.o ./build/command.o ./build/str.o
-		$(CC) $(CFLAGS) -o ./bin/src/sort ./build/main.o ./build/sort.o build/command.o ./build/str.o
+EXE := bin/sort
+SRC := $(wildcard $(SRC_DIR)/*.c)
+OBJ := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
+DEP := $(OBJ:.o=.d)
 
-./build/main.o: ./src/main.c
-		$(CC) $(CFLAGS) -o build/main.o -c src/main.c
+TEST_EXE := bin/test
+TEST_SRC := $(wildcard $(TEST_SRC_DIR)/*.c)
+TEST_OBJ := $(patsubst $(TEST_SRC_DIR)/%.c, $(TEST_OBJ_DIR)/%.o, $(TEST_SRC))
+TEST_DEP := $(TEST_OBJ:.o=.d)
 
-./build/sort.o: ./src/sort.c
-		$(CC) $(CFLAGS) -o build/sort.o -c src/sort.c
+all: build $(OBJ_DIR) bin $(EXE) $(SRC)
 
-./build/command.o: ./src/command.c
-		$(CC) $(CFLAGS) -o build/command.o -c src/command.c
+build $(OBJ_DIR) $(TEST_OBJ_DIR) bin:
+	mkdir $@
 
-./build/str.o: ./src/str.c
-		$(CC) $(CFLAGS) -o build/str.o -c src/str.c
+$(EXE): $(OBJ)
+	gcc $^ -o $@ $(CF)
 
-./bin/ctest/test: ./build/tests.o ./build/sort.o ./build/command.o ./build/str.o 
-		$(CC) -I thirdparty -I src -Wall -o ./bin/ctest/test  ./build/tests.o ./build/sort.o build/command.o ./build/str.o 
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	gcc $< -c -o $@ $(CF) -MMD -MF $(OBJ_DIR)/$*.d
 
-./build/tests.o: ./tests/main.c
-		$(CC) -I thirdparty -I src -Wall -o build/tests.o -c tests/main.c
+test: all $(TEST_OBJ_DIR) $(TEST_EXE) $(TEST_SRC)
+
+$(TEST_EXE): $(TEST_OBJ) $(patsubst build/src/main.o, ,$(OBJ))
+	gcc $^ -o $@ $(CF_TEST)
+
+$(TEST_OBJ_DIR)/%.o: $(TEST_SRC_DIR)/%.c
+	gcc $< -c -o $@ $(CF_TEST) -MMD -MF $(TEST_OBJ_DIR)/$*.d
 
 clean:
-	rm -rf build/*.o build/*.d
+	rm -rf build bin
 
+.PHONY: all clean test
