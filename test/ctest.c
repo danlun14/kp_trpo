@@ -152,3 +152,16 @@ CTEST(arithmetic_suite, swap_int)
     ASSERT_EQUAL(a[0], a[3]);
     ASSERT_EQUAL(a[2], a[1]);
 }
+
+CTEST(arithmetic_suite, scmp)
+{
+    char* str3 = NULL;
+    char str[45] = "sun";
+    char str2[21] = {'1', 'c', 'd'};
+    int i = scmp(str, str2);
+    ASSERT_EQUAL(i, 1);
+    i = scmp(str3, str2);
+    ASSERT_EQUAL(i, -1);
+    i = scmp(str2, str2);
+    ASSERT_EQUAL(i, 0);
+}
