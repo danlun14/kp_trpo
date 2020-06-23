@@ -140,3 +140,15 @@ CTEST(arithmetic_suite, swap_str)
     ASSERT_STR(dic1->str[0].s, dic2->str[1].s);
     ASSERT_STR(dic1->str[1].s, dic2->str[0].s);
 }
+
+CTEST(arithmetic_suite, swap_int)
+{
+    long int a[4];
+    a[0] = 40;
+    a[1] = 30;
+    a[2] = a[0];
+    a[3] = a[1];
+    swap_int(a, a + 1);
+    ASSERT_EQUAL(a[0], a[3]);
+    ASSERT_EQUAL(a[2], a[1]);
+}
